@@ -1,3 +1,4 @@
+include: "funds.view"
 view: allocations {
   sql_table_name: stage_nova.allocations ;;
 
@@ -5,6 +6,7 @@ view: allocations {
     primary_key: yes
     type: number
     sql: ${TABLE}.id ;;
+    hidden: yes
   }
 
   dimension: amount {
@@ -12,46 +14,43 @@ view: allocations {
     sql: ${TABLE}.amount ;;
   }
 
-  dimension_group: created {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.created_at ;;
-  }
-
   dimension: from_entity_id {
     type: number
     sql: ${TABLE}.from_entity_id ;;
+    hidden: yes
   }
 
   dimension: to_entity_id {
     type: number
     sql: ${TABLE}.to_entity_id ;;
-  }
+}
 
-  dimension_group: updated {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.updated_at ;;
-  }
+#   dimension_group: created {
+#     type: time
+#     timeframes: [
+#       raw,
+#       time,
+#       date,
+#       week,
+#       month,
+#       quarter,
+#       year
+#     ]
+#     sql: ${TABLE}.created_at ;;
+#   }
 
-  measure: count {
-    type: count
-    drill_fields: [id]
-  }
+#   dimension_group: updated {
+#     type: time
+#     timeframes: [
+#       raw,
+#       time,
+#       date,
+#       week,
+#       month,
+#       quarter,
+#       year
+#     ]
+#     sql: ${TABLE}.updated_at ;;
+#   }
+
 }

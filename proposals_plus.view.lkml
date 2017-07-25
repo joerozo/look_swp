@@ -10,7 +10,7 @@ view: proposals_plus {
         ,(COUNT(DISTINCT lmi_programs.id)) as `lmi_program_count`
       FROM regions  AS regions
       LEFT JOIN districts  AS districts ON regions.id = districts.region_id
-      LEFT JOIN colleges  AS institutions ON districts.id = institutions.district_id
+      LEFT JOIN institutions  AS institutions ON districts.id = institutions.district_id
       LEFT JOIN (
         select
           id
@@ -117,9 +117,9 @@ view: proposals_plus {
     sql: ${TABLE}.investments ;;
   }
 
-  dimension: lead_college_id {
+  dimension: lead_institution_id {
     type: number
-    sql: ${TABLE}.lead_college_id ;;
+    sql: ${TABLE}.lead_institution_id ;;
     hidden: yes
   }
 
@@ -221,7 +221,7 @@ view: proposals_plus {
     sql: ${TABLE}.title ;;
     link: {
       label: "View Proposal"
-      url: "{% if proposals_plus.local_share_plan_id._value != null %}http://public.ewdgrants.net/plans/summary/{{ proposals_plus.local_share_plan_id._value }}{% else %}http://swpregional.cccco.edu/#/download?id={{ proposals_plus.id._value }}{% endif %}"
+      url: "{% if proposals.local_share_plan_id._value != null %}http://public.ewdgrants.net/plans/summary/{{ proposals.local_share_plan_id._value }}{% else %}http://swpregional.cccco.edu/#/download?id={{ proposals.id._value }}{% endif %}"
       icon_url: "http://swpregional.cccco.edu/assets/images/favicon-16x16.png"
     }
     required_fields: [proposals.id]

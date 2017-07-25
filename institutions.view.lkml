@@ -33,6 +33,19 @@ view: institutions {
     hidden:  yes
   }
 
+
+# dimension lead-name comes from table.name
+# by creating a separate dimension this allows
+# us to build a one_to_one join that only returns one value
+# joins on the "lead_college_id"
+  dimension: lead_name {
+    type: string
+    sql: ${TABLE}.name ;;
+    label: "Lead College"
+    suggest_persist_for: "24 hours"
+  }
+
+
   dimension_group: created {
     type: time
     timeframes: [

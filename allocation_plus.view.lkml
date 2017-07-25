@@ -1,10 +1,12 @@
 view: allocation_plus {
   derived_table: {
-    sql: SELECT
-        allocations.*
-        , funds.name as fund_name
-      FROM allocation_items as allocations
-      LEFT JOIN funds  AS funds ON allocations.fund_id = funds.id
+    sql: select allocations.id, ri.name as name, ri.id as institution_id, s.fund_year_id as program_year_id, s.fund_id as fund_id, sfe.name as source, allocations.amount, funds.name as fund_name from allocations
+      left join fiscal_entities as s on allocations.from_entity_id = s.id
+      left join fiscal_entities as r on allocations.to_entity_id = r.id
+      left join fiscal_entity_roles as sfe on s.fiscal_entity_role_id = sfe.id
+      left join institutions as ri on r.institution_id = ri.id
+      left join funds as funds on s.fund_id = funds.id
+      order by allocations.amount desc
  ;;
   }
 
@@ -29,7 +31,7 @@ view: allocation_plus {
 
   dimension: super_allocation_bool {
     type: yesno
-    sql: ${TABLE}.source = "CO" ;;
+    sql: ${TABLE}.source = "state" ;;
     hidden: yes
   }
 
@@ -95,24 +97,5 @@ view: allocation_plus {
     hidden: yes
     type: string
     sql: ${TABLE}.fund_name ;;
-  }
-
-  measure: count {
-    type: count
-    drill_fields: [detail*]
-    hidden: yes
-  }
-
-
-  # ----- Sets of fields for drilling ------
-  set: detail {
-    fields: [
-      id,
-      name,
-      funds.name,
-      funds.id,
-      program_years.name,
-      program_years.id
-    ]
   }
 }

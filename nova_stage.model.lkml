@@ -135,7 +135,7 @@ explore: budgeting_institutions {
     view_label: "Proposals"
     from: institutions
     relationship: many_to_one
-    sql_on: ${proposals.lead_college_id} = ${institutions.id} ;;
+    sql_on: ${proposals.lead_institution_id} = ${institutions.id} ;;
     fields: [lead_college.lead_college]
   }
 
@@ -231,12 +231,12 @@ explore: budgeting_institutions {
 
 explore: fiscal_entities {
   label: "Proposals"
-#   hidden: yes
 
   join: budget_items {
-    type:  left_outer
-    relationship: one_to_many
+    type: left_outer
+    relationship: many_to_one
     sql_on: ${budget_items.fiscal_entity_id} = ${fiscal_entities.id} ;;
+    view_label: "Budget Items"
   }
 
   join: institutions {
@@ -290,12 +290,13 @@ explore: fiscal_entities {
     sql_on: ${budget_items.proposal_id} = ${proposals.id} ;;
   }
 
-  join: lead_college {
-    view_label: "Proposals"
+  join: lead_colleges {
     from: institutions
-    relationship: many_to_one
-    sql_on: ${proposals.lead_college_id} = ${institutions.id} ;;
-    fields: [lead_college.lead_college]
+    type:  left_outer
+    sql_on: ${proposals.lead_institution_id} = ${lead_colleges.id}  ;;
+    relationship: one_to_one
+    fields: ["lead_name"]
+    view_label: "Proposals"
   }
 
   join: creators {

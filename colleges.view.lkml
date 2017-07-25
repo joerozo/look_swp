@@ -56,6 +56,13 @@ view: colleges {
     drill_fields: [detail*]
   }
 
+  dimension: lead_name {
+    type: string
+    sql: ${TABLE}.name ;;
+    label: "Lead College"
+    suggest_persist_for: "24 hours"
+  }
+
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [
