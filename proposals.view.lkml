@@ -74,14 +74,6 @@ view: proposals {
     hidden: yes
   }
 
-# measure: cert {
-#   type: sum
-#   sql: CASE WHEN {% condition funds.fund_filter %} ${funds.fund_name} {% endcondition %}
-#   THEN ${estimated_cost}
-#   ELSE 0
-#   END;;
-# }
-
   dimension: estimated_cost {
     type: number
     sql: ${TABLE}.estimated_cost ;;
@@ -96,12 +88,6 @@ view: proposals {
   dimension: investments {
     type: string
     sql: ${TABLE}.investments ;;
-  }
-
-  dimension: lead_college_id {
-    type: number
-    sql: ${TABLE}.lead_college_id ;;
-    hidden: yes
   }
 
   dimension: lead_district_id {

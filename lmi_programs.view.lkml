@@ -7,12 +7,6 @@ view: lmi_programs {
     sql: ${TABLE}.id ;;
   }
 
-  dimension: college_id {
-    type: number
-    # hidden: yes
-    sql: ${TABLE}.college_id ;;
-  }
-
   dimension_group: created {
     type: time
     timeframes: [

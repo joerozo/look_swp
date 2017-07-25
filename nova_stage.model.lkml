@@ -47,14 +47,6 @@ explore: allocations_exp {
     sql_on: ${allocations_exp.fund_id} = ${funds.id} ;;
   }
 
-#   join: fiscal_entity_roles{
-#     view_label: "Allocations"
-#     type: left_outer
-#     relationship: many_to_one
-#     sql_on: ${allocations_exp.fiscal_entity_role_id} = ${fiscal_entity_roles.id} ;;
-#     fields: []
-#   }
-#
   join: districts {
     type: left_outer
     relationship: many_to_one
@@ -86,7 +78,6 @@ explore: budgeting_institutions {
     type: left_outer
     relationship: many_to_one
     sql_on: ${budgeting_institutions.institution_id} = ${institutions.id} ;;
-#     fields: [ALL_FIELDS*]
   }
 
   join: allocations {
@@ -120,7 +111,6 @@ explore: budgeting_institutions {
     type: left_outer
     relationship: many_to_one
     sql_on: ${districts.region_id} = ${regions.id} ;;
-#     fields: [regions.name, -regions.region_name]
     fields: []
   }
 
@@ -135,7 +125,7 @@ explore: budgeting_institutions {
     view_label: "Proposals"
     from: institutions
     relationship: many_to_one
-    sql_on: ${proposals.lead_institution_id} = ${institutions.id} ;;
+    sql_on: ${proposals.lead_institution_id} = ${lead_college.id} ;;
     fields: [lead_college.lead_college]
   }
 
@@ -161,7 +151,6 @@ explore: budgeting_institutions {
     type: left_outer
     relationship: one_to_many
     sql: ${creators_regions.id} = ${regions_users.region_id} ;;
-#     fields: [creators_regions.region_name]
     fields: []
   }
 
@@ -215,7 +204,6 @@ explore: budgeting_institutions {
   join: proposals_sectors {
     type: left_outer
     relationship: one_to_many
-    type:  left_outer
     sql_on: ${proposals.id} = ${proposals_sectors.id} ;;
     fields: []
   }
@@ -387,22 +375,4 @@ explore: fiscal_entities {
     sql_on: ${proposals_sectors.sector_id} = ${sectors.id};;
     fields: ["sector", "sector_budget"]
   }
-
-
-#   join: lead_college {
-#     view_label: "Lead College"
-#     from: institutions
-#     type: left_outer
-#     sql_on: ${proposals.lead_college_id} = ${institutions.id} ;;
-#     fields: [lead_college.name]
-#   }
 }
-
-
-# explore: budgeting_institutions {
-#   label: "Budgeting Institutions"
-#   extends: [fiscal_entities]
-#   from:  fiscal_entities
-#   view_name: fiscal_entities
-#   fields: [ALL_FIELDS*-]
-# }
